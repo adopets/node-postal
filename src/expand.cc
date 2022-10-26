@@ -134,8 +134,10 @@ static void cleanup(void*) {
 
 void init(v8::Local<v8::Object> exports) {
     v8::Local<v8::Context> context = exports->CreationContext();
+    char* datadir = getenv("LIBPOSTAL_DATA_DIR");
 
-    if (!libpostal_setup() || !libpostal_setup_language_classifier()) {
+    if ((datadir!=NULL) && (!libpostal_setup_datadir(datadir) || !libpostal_setup_language_classifier_datadir(datadir)) ||
+        (!libpostal_setup() || !libpostal_setup_language_classifier()))  {
         Nan::ThrowError("Could not load libpostal");
         return;
     }
