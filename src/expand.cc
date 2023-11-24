@@ -133,7 +133,7 @@ static void cleanup(void*) {
 }
 
 void init(v8::Local<v8::Object> exports) {
-    v8::Local<v8::Context> context = exports->CreationContext();
+    v8::Local<v8::Context> context = exports->GetCreationContext().ToLocalChecked();
     char* datadir = getenv("LIBPOSTAL_DATA_DIR");
 
     if ((datadir!=NULL) && (!libpostal_setup_datadir(datadir) || !libpostal_setup_language_classifier_datadir(datadir)) ||
